@@ -4,17 +4,19 @@ async function createMovie(req, res) {
     try {
         if (
             !req.body.title ||
+            !req.body.imageUrl ||
             !req.body.studio ||
             !req.body.runningtime ||
             !req.body.diretor ||
             !req.body.year
         ) {
             return res.status(400).send({
-                message: 'Required fields: title, studio, runningtime, diretor, year'
+                message: 'Required fields: title, imageUrl, studio, runningtime, diretor, year'
             });
         }
         const newMovie = {
             title: req.body.title,
+            imageUrl: req.body.imageUrl,
             studio: req.body.studio,
             runningtime: req.body.runningtime,
             diretor: req.body.diretor,
@@ -104,4 +106,25 @@ async function deleteMovieById(req, res){
     }
 }
 
-export default { createMovie, getAllMovies, getMovieById, updateMovieById, deleteMovieById };
+async function uploadImage(req, res){
+    try {
+        if (!req.file) {
+            return res.status(400).send({
+                message: `No file uploaded, upload as form-data and key as 'image'`
+            });
+        }
+
+        const file = req.file;
+
+        return res.status(201).send({
+            message: 'File uploaded successfully!',
+            imageUrl: file.path
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: error.message });
+    }
+}
+
+export default { createMovie, getAllMovies, getMovieById, updateMovieById, deleteMovieById, uploadImage };

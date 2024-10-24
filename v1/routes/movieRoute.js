@@ -1,11 +1,20 @@
 import express from 'express';
-import movieContrller from '../controllers/movieController.js'
+import movieContrller from '../controllers/movieController.js';
+import upload from '../../fileConfig.js';
 
 const router = express.Router();
 
+/* API Route: /api/v1/movies/upload-image
+** Method: POST
+** params: form-data:image as key image
+** Return: file.path */
+router.post('/upload-image', upload.single('image'), async (req, res) => {
+    await movieContrller.uploadImage(req, res);
+});
+
 /* API Route: /api/v1/movies
 ** Method: POST
-** params: title, studio, runningtime, genre(optional), diretor, year */
+** params: title, imageUrl, studio, runningtime, genre(optional), diretor, year */
 router.post('/', async (req, res) => {
     await movieContrller.createMovie(req, res);
 });
