@@ -1,0 +1,17 @@
+{
+  "name": "movie_db",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch --env-file=.env index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.1",
+    "mongoose": "^8.7.2"
+  }
+}
