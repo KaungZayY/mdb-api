@@ -33,6 +33,13 @@ router.get('/:id', async (req, res) => {
     await movieContrller.getMovieById(req, res);
 });
 
+/* API Route: /api/v1/movies/genre/:genre
+** Method: GET
+** params: genre */
+router.get('/genre/:genre', async (req, res) => {
+    await movieContrller.getMoviesByGenre(req, res);
+});
+
 /* API Route: /api/v1/movies/:id
 ** Method: PUT
 ** params: id, title, studio, runningtime, genre(optional), diretor, year */

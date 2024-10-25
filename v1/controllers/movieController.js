@@ -63,6 +63,23 @@ async function getMovieById(req, res){
     }
 }
 
+async function getMoviesByGenre(req, res) {
+    try {
+        const { genre } = req.params;
+        if (!genre) {
+            return res.status(400).json({ message: 'Genre parameter is required' });
+        }
+        const movies = await Movie.find({ genre: genre });
+        if (movies.length === 0) {
+            return res.status(404).json({ message: `No movies found in the '${genre}' genre` });
+        }
+        return res.status(200).json(movies);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: error.message });
+    }
+}
+
 async function updateMovieById(req, res){
     try{
         if (
@@ -127,4 +144,4 @@ async function uploadImage(req, res){
     }
 }
 
-export default { createMovie, getAllMovies, getMovieById, updateMovieById, deleteMovieById, uploadImage };
+export default { createMovie, getAllMovies, getMovieById, updateMovieById, deleteMovieById, uploadImage, getMoviesByGenre };
