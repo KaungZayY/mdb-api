@@ -4,9 +4,19 @@ import multer from 'multer';
 
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
-    params: {
-        folder: 'movie_db',
-        allowed_formats: ['jpg','jpeg','png'],
+    params: async (req) => {
+        let folder = 'movie_db';
+
+        if (req.originalUrl.includes('/users/upload-profile')) {
+            folder = 'movie_db/user_profiles';
+        } else if (req.originalUrl.includes('/movies/upload-image')) {
+            folder = 'movie_db/movie_covers';
+        }
+
+        return {
+            folder: folder,
+            allowed_formats: ['jpg', 'jpeg', 'png'],
+        };
     },
 });
 
