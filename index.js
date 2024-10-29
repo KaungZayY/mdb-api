@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import connectDB from './database.js';
 import movieRouteV1 from './v1/routes/movieRoute.js'
 import userRouteV1 from './v1/routes/userRoute.js'
+import reviewRouteV1 from './v1/routes/reviewRoute.js'
 
 connectDB();
 
@@ -15,7 +16,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/v1/movies',movieRouteV1);
-app.use('/api/v1/users',userRouteV1);
+app.use('/api/v1/movies',reviewRouteV1);
+app.use('/api/v1/auth/users',userRouteV1);
 
 mongoose.connection.on('connected', () => {
     console.log('Connected to MongoDB!')
