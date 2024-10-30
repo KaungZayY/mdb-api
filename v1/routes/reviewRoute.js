@@ -19,4 +19,17 @@ router.post('/:id/reviews', authV1.validateToken, async (req, res) => {
     await reviewController.createReview(req, res);
 });
 
+/* API Route: /api/v1/movies/reviews/:id
+** Method: POST
+** body: rating, review */
+router.put('/reviews/:id', authV1.validateToken, async (req, res) => {
+    await reviewController.updateReviewById(req, res);
+});
+
+/* API Route: /api/v1/movies/reviews/:id
+** Method: DELETE */
+router.delete('/reviews/:id', authV1.validateToken, async (req, res) => {
+    await reviewController.deleteReviewById(req, res);
+});
+
 export default router;

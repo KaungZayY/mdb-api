@@ -57,4 +57,69 @@ async function getAllReviews(req, res) {
     }
 }
 
-export default { createReview, getAllReviews };
+async function updateReviewById(req, res){
+    try{
+        const { id } = req.params;
+        const review = await Review.findById(id);
+        if (!review) {
+            return res.status(404).send({ message: 'Review not found!' });
+        }
+
+        const owner = isOwner(req, review);
+        if(!owner){
+            return res.status(401).send({ message: 'Unauthorized Access!' });
+        }
+
+        if (
+            !req.body.rating ||
+            !req.body.review
+        ) {
+            return res.status(400).send({
+                message: 'Required rating and review'
+            });
+        }
+
+        const result = await Review.findByIdAndUpdate(id, req.body);
+        
+        if(!result){
+            return res.status(404).send({message: 'Review not found!'});
+        }
+        return res.status(200).send({message: 'Review updated!'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: error.message });
+    }
+}
+
+async function deleteReviewById(req, res){
+    try{
+        const { id } = req.params;
+
+        const review = await Review.findById(id);
+        if (!review) {
+            return res.status(404).send({ message: 'Review not found!' });
+        }
+
+        const owner = isOwner(req, review);
+        if(!owner){
+            return res.status(401).send({ message: 'Unauthorized Access!' });
+        }
+
+        const result = await Review.findByIdAndDelete(id);
+        if (!result) {
+            return res.status(404).send({ message: 'Review not found!' });
+        }
+        
+        return res.status(200).send({ message: 'Review deleted!' });
+    
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: error.message });
+    }
+}
+
+function isOwner(req, review){
+    return req.user.userId.toString() === review.author_id.toString();
+}
+
+export default { createReview, getAllReviews, updateReviewById, deleteReviewById };
