@@ -11,9 +11,9 @@ const app = express();
 app.use(express.json());
 const PORT = process.env.PORT || 8080;
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-})
+// app.get('/', (req, res) => {
+//     res.send('Hello World!');
+// })
 
 app.use('/api/v1/movies',movieRouteV1);
 app.use('/api/v1/movies',reviewRouteV1);

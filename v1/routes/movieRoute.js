@@ -1,6 +1,6 @@
 import express from 'express';
 import movieContrller from '../controllers/movieController.js';
-import upload from '../../fileConfig.js';
+import upload from '../../configs/fileConfig.js';
 
 const router = express.Router();
 
