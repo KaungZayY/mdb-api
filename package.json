@@ -4,8 +4,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node --watch --env-file=.env index.js"
+    "start": "node --env-file=.env index.js",
+    "dev": "node --watch --env-file=.env index.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+  },
+  "jest": {
+    "transform": {}
   },
   "author": "",
   "license": "ISC",
@@ -18,5 +22,8 @@
     "mongoose": "^8.7.2",
     "multer": "^1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

@@ -42,7 +42,7 @@ async function getAllMovies(req, res) {
             .sort({
                 year: 'desc'
             });
-        return res.status(200).json(movies);
+        return res.status(200).send(movies);
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: error.message });
@@ -56,7 +56,7 @@ async function getMovieById(req, res){
         if (!movie) {
             return res.status(404).send({ message: 'Movie not found!' });
         }
-        return res.status(200).json(movie);
+        return res.status(200).send(movie);
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: error.message });
@@ -67,13 +67,13 @@ async function getMoviesByGenre(req, res) {
     try {
         const { genre } = req.params;
         if (!genre) {
-            return res.status(400).json({ message: 'Genre parameter is required' });
+            return res.status(400).send({ message: 'Genre parameter is required' });
         }
         const movies = await Movie.find({ genre: genre });
         if (movies.length === 0) {
-            return res.status(404).json({ message: `No movies found in the '${genre}' genre` });
+            return res.status(404).send({ message: `No movies found in the '${genre}' genre` });
         }
-        return res.status(200).json(movies);
+        return res.status(200).send(movies);
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: error.message });
@@ -99,7 +99,7 @@ async function updateMovieById(req, res){
         const result = await Movie.findByIdAndUpdate(id, req.body);
         
         if(!result){
-            return res.status(404).json({message: 'Movie not found!'});
+            return res.status(404).send({message: 'Movie not found!'});
         }
         return res.status(200).send({message: 'Movie info updated!'});
     } catch (error) {
