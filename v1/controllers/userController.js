@@ -43,7 +43,7 @@ async function createUser(req, res) {
         
         const emailExists = await User.find({ email: req.body.email });
         if (emailExists.length > 0) {
-            return res.status(409).json({ message: 'Email already exists' });
+            return res.status(409).send({ message: 'Email already exists' });
         }
 
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -88,7 +88,7 @@ async function userLogin(req, res){
             });
         } 
         else {
-            return res.status(401).send({ message: 'User not found' });
+            return res.status(401).send({ message: 'Incorrect User credentials' });
         }
 
     } catch (error) {
@@ -106,11 +106,12 @@ async function userLogout(req, res){
         const token = req.body.token;
 
         if (!token || !refreshTokens.includes(token)) {
+            console.log(token, refreshTokens)
             return res.status(400).send({ message: 'Invalid or missing Refresh Token' });
         }
 
         refreshTokens = refreshTokens.filter((c) => c !== token);
-        return res.status(200).json({ message: 'Successfully logged out' });
+        return res.status(200).send({ message: 'Successfully logged out' });
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: error.message });
