@@ -50,7 +50,7 @@ async function getAllReviews(req, res) {
             .sort({
                 createdAt: 'desc'
             });
-        return res.status(200).json(reviews);
+        return res.status(200).send(reviews);
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: error.message });
