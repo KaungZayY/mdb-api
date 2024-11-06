@@ -192,34 +192,6 @@ describe('User Controller', () => {
         });
     });
 
-    describe('userLogout', () => {
-        test('should return 400 if refresh token is missing', async () => {
-            req.body.token = undefined;
-    
-            await userController.userLogout(req, res);
-    
-            expect(res.status).toHaveBeenCalledWith(400);
-            expect(res.send).toHaveBeenCalledWith({ message: 'Refresh token is required' });
-        });
-
-        test('should return 400 if refresh token is invalid', async () => {
-            req.body.token = 'invalid_mock_token';
-            
-            await userController.userLogout(req, res);
-    
-            expect(res.status).toHaveBeenCalledWith(400);
-            expect(res.send).toHaveBeenCalledWith({ message: 'Invalid or missing Refresh Token' });
-        });
-
-        test('should logout user and remove the token', async () => {
-            req.body.token = "mock_refresh_token";
-            await userController.userLogout(req, res);
-
-            expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.send).toHaveBeenCalledWith({ message: 'Successfully logged out' });
-        });
-    });
-
     describe('tokenRefresh', () => {
         test('should return 400 if refresh token is missing', async () => {
             req.body.token = undefined;
@@ -255,10 +227,41 @@ describe('User Controller', () => {
             });
             await userController.tokenRefresh(req, res);
 
+            expect(res.status).toHaveBeenCalledWith(200);
             expect(res.send).toHaveBeenCalledWith({
                 AccessToken: newMockAccessToken,
                 RefreshToken: newMockRefreshToken
             });
         });
     });
+
+    describe('userLogout', () => {
+        test('should return 400 if refresh token is missing', async () => {
+            req.body.token = undefined;
+    
+            await userController.userLogout(req, res);
+    
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.send).toHaveBeenCalledWith({ message: 'Refresh token is required' });
+        });
+
+        test('should return 400 if refresh token is invalid', async () => {
+            req.body.token = 'invalid_mock_token';
+            
+            await userController.userLogout(req, res);
+    
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.send).toHaveBeenCalledWith({ message: 'Invalid or missing Refresh Token' });
+        });
+
+        test('should logout user and remove the token', async () => {
+            req.body.token = "mock_refresh_token";
+            await userController.userLogout(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.send).toHaveBeenCalledWith({ message: 'Successfully logged out' });
+        });
+    });
+
+    
 });

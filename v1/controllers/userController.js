@@ -106,7 +106,7 @@ async function userLogout(req, res){
         const token = req.body.token;
 
         if (!token || !refreshTokens.includes(token)) {
-            console.log(token, refreshTokens)
+            // console.log(token, refreshTokens)
             return res.status(400).send({ message: 'Invalid or missing Refresh Token' });
         }
 
